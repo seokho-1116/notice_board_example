@@ -7,11 +7,11 @@ import org.springframework.data.repository.Repository;
 
 public interface PostRepository extends Repository<Post, Long> {
 
-  List<Post> findAll();
-
   Optional<Post> findById(Long id);
 
   Post save(Post post);
 
   void deleteById(Long id);
+
+  List<Post> findAllByOrderByCreatedAtDesc();
 }

@@ -3,6 +3,7 @@ package com.example.noticeboardexample.service;
 import com.example.noticeboardexample.entity.Post;
 import com.example.noticeboardexample.repository.PostRepository;
 import java.lang.reflect.Field;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,13 +14,6 @@ public class FakePostRepository implements PostRepository {
 
   private final AtomicLong idGenerator = new AtomicLong(1);
   private final Map<Long, Post> posts = new HashMap<>();
-
-  @Override
-  public List<Post> findAll() {
-    return posts.values()
-        .stream()
-        .toList();
-  }
 
   @Override
   public Optional<Post> findById(Long id) {
@@ -49,5 +43,13 @@ public class FakePostRepository implements PostRepository {
   @Override
   public void deleteById(Long id) {
     posts.remove(id);
+  }
+
+  @Override
+  public List<Post> findAllByOrderByCreatedAtDesc() {
+    return posts.values()
+        .stream()
+        .sorted(Comparator.comparing(Post::getCreatedAt))
+        .toList();
   }
 }
