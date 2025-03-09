@@ -2,7 +2,7 @@ package com.example.noticeboardexample.service;
 
 import com.example.noticeboardexample.entity.Post;
 import com.example.noticeboardexample.repository.PostRepository;
-import com.example.noticeboardexample.service.dto.PostCreateRequest;
+import com.example.noticeboardexample.service.dto.PostCreateDto;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -25,12 +25,12 @@ public class PostService {
   }
 
   @Transactional
-  public Post save(PostCreateRequest postCreateRequest) {
+  public Post save(PostCreateDto postCreateDto) {
     Post post = Post.builder()
-        .writerName(postCreateRequest.writerName())
-        .password(postCreateRequest.password())
-        .title(postCreateRequest.title())
-        .content(postCreateRequest.content())
+        .writerName(postCreateDto.writerName())
+        .password(postCreateDto.password())
+        .title(postCreateDto.title())
+        .content(postCreateDto.content())
         .build();
 
     return postRepository.save(post);

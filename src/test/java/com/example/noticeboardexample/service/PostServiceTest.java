@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.example.noticeboardexample.entity.Post;
-import com.example.noticeboardexample.service.dto.PostCreateRequest;
+import com.example.noticeboardexample.service.dto.PostCreateDto;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,10 +21,10 @@ class PostServiceTest {
 
   @BeforeEach
   void init() {
-    PostCreateRequest postCreateRequest = new PostCreateRequest("testWriter", "1234", "testTitle",
+    PostCreateDto postCreateDto = new PostCreateDto("testWriter", "1234", "testTitle",
         "testContent");
 
-    postService.save(postCreateRequest);
+    postService.save(postCreateDto);
   }
 
   @AfterEach
