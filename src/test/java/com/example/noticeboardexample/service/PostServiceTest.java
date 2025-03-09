@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.example.noticeboardexample.entity.Post;
+import com.example.noticeboardexample.repository.FakePostRepository;
 import com.example.noticeboardexample.service.dto.PostCreateDto;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;

@@ -1,7 +1,6 @@
-package com.example.noticeboardexample.service;
+package com.example.noticeboardexample.repository;
 
 import com.example.noticeboardexample.entity.Post;
-import com.example.noticeboardexample.repository.PostRepository;
 import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.HashMap;
