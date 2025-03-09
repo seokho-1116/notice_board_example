@@ -24,8 +24,8 @@ public class Post extends BaseEntity {
   @Column(name = "writer_name")
   private String writerName;
 
-  @Column(name = "password")
-  private String password;
+  @Column(name = "post_password")
+  private String postPassword;
 
   @Column(name = "title")
   private String title;
@@ -34,9 +34,9 @@ public class Post extends BaseEntity {
   private String content;
 
   @Builder
-  private Post(String writerName, String password, String title, String content) {
+  private Post(String writerName, String postPassword, String title, String content) {
     this.writerName = writerName;
-    this.password = password;
+    this.postPassword = postPassword;
     this.title = title;
     this.content = content;
   }

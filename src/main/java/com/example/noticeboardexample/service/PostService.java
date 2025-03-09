@@ -28,7 +28,7 @@ public class PostService {
   public Post save(PostCreateDto postCreateDto) {
     Post post = Post.builder()
         .writerName(postCreateDto.writerName())
-        .password(postCreateDto.password())
+        .postPassword(postCreateDto.password())
         .title(postCreateDto.title())
         .content(postCreateDto.content())
         .build();
@@ -41,7 +41,7 @@ public class PostService {
     Post post = postRepository.findById(id)
             .orElseThrow(NoSuchElementException::new);
 
-    validatePassword(password, post.getPassword());
+    validatePassword(password, post.getPostPassword());
 
     postRepository.deleteById(id);
     return id;
@@ -58,7 +58,7 @@ public class PostService {
     Post post = postRepository.findById(id)
         .orElseThrow(NoSuchElementException::new);
 
-    validatePassword(password, post.getPassword());
+    validatePassword(password, post.getPostPassword());
 
     post.updateContent(content);
     return post;
