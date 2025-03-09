@@ -7,8 +7,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
+@NoArgsConstructor
 @Table(name = "post")
 public class Post {
 
@@ -34,4 +39,16 @@ public class Post {
 
   @Column(name = "updated_at")
   private LocalDateTime updatedAt;
+
+  @Builder
+  private Post(String writerName, String password, String title, String content) {
+    this.writerName = writerName;
+    this.password = password;
+    this.title = title;
+    this.content = content;
+  }
+
+  public void updateContent(String content) {
+    this.content = content;
+  }
 }
