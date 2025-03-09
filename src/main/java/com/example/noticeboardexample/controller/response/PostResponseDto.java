@@ -11,8 +11,7 @@ public record PostResponseDto(
     String writerName,
     String title,
     String content,
-    LocalDateTime createdAt,
-    String postPassword
+    LocalDateTime createdAt
 ) {
 
   public static List<PostResponseDto> fromPosts(List<Post> posts) {
