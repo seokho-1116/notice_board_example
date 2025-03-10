@@ -1,5 +1,5 @@
 package com.example.noticeboardexample.entity;
 
 public enum Authority {
-  ADMIN, USER
+  ROLE_ADMIN, ROLE_USER
 }
