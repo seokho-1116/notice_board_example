@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/api/v1/auth")
-public class AuthController {
+public class AuthRestController {
 
   private final EndUserService endUserService;
 
-  public AuthController(EndUserService endUserService) {
+  public AuthRestController(EndUserService endUserService) {
     this.endUserService = endUserService;
   }
 
