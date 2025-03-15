@@ -1,7 +1,7 @@
 package com.example.noticeboardexample.repository;
 
 import com.example.noticeboardexample.entity.Post;
-import java.lang.reflect.Field;
+import com.example.noticeboardexample.util.TestDataUtil;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -24,20 +24,10 @@ public class FakePostRepository implements PostRepository {
     long id = idGenerator.getAndIncrement();
 
     Post saved = posts.put(id, post);
-    forceSetId(post, id);
+    TestDataUtil.forceSetId(post, id);
 
     return saved;
   }
-
-  private void forceSetId(Post post, long id) {
-    try {
-        Field idField = Post.class.getDeclaredField("id");
-        idField.setAccessible(true);
-        idField.set(post, id);
-    } catch (NoSuchFieldException | IllegalAccessException e) {
-        throw new RuntimeException(e);
-    }
-}
 
   @Override
   public void deleteById(Long id) {
