@@ -37,6 +37,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.POST, "/api/v1/auth/sign-up").permitAll()
             .requestMatchers(HttpMethod.POST, "/api/v1/auth/sign-in").permitAll()
+            .requestMatchers("/api/v1/posts/**").permitAll()
             .anyRequest().authenticated()
         )
         .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))

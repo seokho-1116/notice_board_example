@@ -18,7 +18,7 @@ public record PostResponseDto(
     return posts.stream()
         .map(post -> PostResponseDto.builder()
             .id(post.getId())
-            .writerName(post.getWriterName())
+            .writerName(post.getUsername())
             .title(post.getTitle())
             .content(post.getContent())
             .createdAt(post.getCreatedAt())
@@ -29,7 +29,7 @@ public record PostResponseDto(
   public static PostResponseDto fromPost(Post post) {
     return PostResponseDto.builder()
         .id(post.getId())
-        .writerName(post.getWriterName())
+        .writerName(post.getUsername())
         .title(post.getTitle())
         .content(post.getContent())
         .createdAt(post.getCreatedAt())
