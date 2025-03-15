@@ -35,8 +35,8 @@ public class SecurityConfig {
     return http
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers(HttpMethod.POST, "/api/v1/sign-up").permitAll()
-            .requestMatchers(HttpMethod.POST, "/api/v1/sign-in").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/v1/auth/sign-up").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/v1/auth/sign-in").permitAll()
             .anyRequest().authenticated()
         )
         .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))
