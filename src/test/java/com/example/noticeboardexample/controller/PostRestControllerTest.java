@@ -1,28 +1,44 @@
 package com.example.noticeboardexample.controller;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.noticeboardexample.config.SecurityConfig;
+import com.example.noticeboardexample.config.RestControllerAuthTestConfiguration;
+import com.example.noticeboardexample.controller.request.SignUpRequest;
+import com.example.noticeboardexample.controller.request.SingInRequest;
+import com.example.noticeboardexample.controller.response.ResponseWrapper;
 import com.example.noticeboardexample.repository.FakePostRepository;
 import com.example.noticeboardexample.service.PostService;
-import com.example.noticeboardexample.service.TokenService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-@WebMvcTest({PostRestController.class, AuthController.class})
-@Import({SecurityConfig.class, TokenService.class, PostService.class, FakePostRepository.class})
+@WebMvcTest({PostRestController.class})
+@Import({PostService.class, FakePostRepository.class, RestControllerAuthTestConfiguration.class})
 class PostRestControllerTest {
 
   @Autowired
   private MockMvc mvc;
+
+  @Autowired
+  private ObjectMapper objectMapper;
+
+  @BeforeAll
+  static void init(@Autowired MockMvc mvc, @Autowired ObjectMapper objectMapper) throws Exception {
+    SignUpRequest request = new SignUpRequest("test", "12345678");
+    mvc.perform(post("/api/v1/auth/sign-up")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(request)));
+  }
 
   @Test
   void postsWhenUnauthenticatedThen401() throws Exception {
@@ -32,15 +48,19 @@ class PostRestControllerTest {
 
   @Test
   void postsWhenAuthenticatedThen200() throws Exception {
-    MvcResult result = this.mvc.perform(post("/api/v1/auth/token")
-            .with(httpBasic("seokho", "password")))
+    SingInRequest request = new SingInRequest("test", "12345678");
+    MvcResult result = this.mvc.perform(post("/api/v1/auth/sign-in")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andReturn();
 
-    String token = result.getResponse().getContentAsString();
+    ResponseWrapper<String> response = objectMapper.readValue(
+        result.getResponse().getContentAsString(), new TypeReference<>() {
+        });
 
     this.mvc.perform(get("/api/v1/posts")
-            .header("Authorization", "Bearer " + token))
+            .header("Authorization", "Bearer " + response.data()))
         .andExpect(status().isOk());
   }
 
