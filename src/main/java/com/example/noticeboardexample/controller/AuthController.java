@@ -1,6 +1,7 @@
 package com.example.noticeboardexample.controller;
 
 import com.example.noticeboardexample.controller.request.SignUpRequest;
+import com.example.noticeboardexample.controller.request.SingInRequest;
 import com.example.noticeboardexample.controller.response.ResponseWrapper;
 import com.example.noticeboardexample.service.EndUserService;
 import jakarta.validation.Valid;
@@ -26,5 +27,12 @@ public class AuthController {
     endUserService.signUp(request.username(), request.password());
 
     return new ResponseWrapper<>("회원가입 성공");
+  }
+
+  @PostMapping("/sign-in")
+  public ResponseWrapper<String> signIn(@Valid @RequestBody SingInRequest request) {
+    String accessToken = endUserService.singIn(request.username(), request.password());
+
+    return new ResponseWrapper<>(accessToken);
   }
 }

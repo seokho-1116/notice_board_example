@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class EndUserService {
 
   private final EndUserRepository endUserRepository;
+  private final TokenService tokenService;
 
   public void signUp(String username, String password) {
     validateUsername(username);
@@ -50,5 +51,15 @@ public class EndUserService {
     if (!passwordPatternMatched) {
       throw new IllegalArgumentException("password는 대소문자 알파벳과 숫자로 8자 이상 15자 이하여야 합니다.");
     }
+  }
+
+  public String singIn(String username, String password) {
+    validateUsername(username);
+    validatePassword(password);
+
+    return endUserRepository.findByUsername(username)
+        .filter(endUser -> endUser.getUserPassword().equals(password))
+        .map(endUser -> tokenService.generateToken(endUser.getUsername(), endUser.getAuthority()))
+        .orElseThrow(() -> new IllegalArgumentException("username 또는 password가 일치하지 않습니다."));
   }
 }
