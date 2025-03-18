@@ -5,6 +5,7 @@ import com.example.noticeboardexample.entity.EndUser;
 import com.example.noticeboardexample.repository.EndUserRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,7 @@ public class EndUserService {
 
   private final EndUserRepository endUserRepository;
   private final TokenService tokenService;
+  private final PasswordEncoder passwordEncoder;
 
   public void signUp(String username, String password) {
     validateUsername(username);
@@ -25,7 +27,7 @@ public class EndUserService {
 
     EndUser endUser = EndUser.builder()
         .username(username)
-        .userPassword(password)
+        .userPassword(passwordEncoder.encode(password))
         .authority(Authority.ROLE_USER)
         .build();
     endUserRepository.save(endUser);
@@ -58,7 +60,7 @@ public class EndUserService {
     validatePassword(password);
 
     return endUserRepository.findByUsername(username)
-        .filter(endUser -> endUser.getUserPassword().equals(password))
+        .filter(endUser -> passwordEncoder.matches(password, endUser.getUserPassword()))
         .map(endUser -> tokenService.generateToken(endUser.getUsername(), endUser.getAuthority()))
         .orElseThrow(() -> new IllegalArgumentException("username 또는 password가 일치하지 않습니다."));
   }

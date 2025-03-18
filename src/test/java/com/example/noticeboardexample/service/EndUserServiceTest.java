@@ -9,13 +9,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 
 class EndUserServiceTest {
 
   private final EndUserService endUserService;
 
   EndUserServiceTest() {
-    this.endUserService = new EndUserService(new FakeEndUserRepository(), new FakeTokenService());
+    this.endUserService = new EndUserService(new FakeEndUserRepository(), new FakeTokenService(),
+        PasswordEncoderFactories.createDelegatingPasswordEncoder());
   }
 
   @BeforeEach
