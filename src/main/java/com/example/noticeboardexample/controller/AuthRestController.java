@@ -1,7 +1,7 @@
 package com.example.noticeboardexample.controller;
 
 import com.example.noticeboardexample.controller.request.SignUpRequest;
-import com.example.noticeboardexample.controller.request.SingInRequest;
+import com.example.noticeboardexample.controller.request.SignInRequest;
 import com.example.noticeboardexample.controller.response.ResponseWrapper;
 import com.example.noticeboardexample.service.EndUserService;
 import jakarta.validation.Valid;
@@ -30,7 +30,7 @@ public class AuthRestController {
   }
 
   @PostMapping("/sign-in")
-  public ResponseWrapper<String> signIn(@Valid @RequestBody SingInRequest request) {
+  public ResponseWrapper<String> signIn(@Valid @RequestBody SignInRequest request) {
     String accessToken = endUserService.singIn(request.username(), request.password());
 
     return new ResponseWrapper<>(accessToken);

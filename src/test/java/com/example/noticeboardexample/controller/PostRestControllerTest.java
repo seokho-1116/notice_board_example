@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.noticeboardexample.config.RestControllerAuthTestConfiguration;
 import com.example.noticeboardexample.controller.request.SignUpRequest;
-import com.example.noticeboardexample.controller.request.SingInRequest;
+import com.example.noticeboardexample.controller.request.SignInRequest;
 import com.example.noticeboardexample.controller.response.ResponseWrapper;
 import com.example.noticeboardexample.repository.FakePostRepository;
 import com.example.noticeboardexample.service.PostService;
@@ -50,7 +50,7 @@ class PostRestControllerTest {
 
   @Test
   void postsWhenAuthenticatedThen200() throws Exception {
-    SingInRequest request = new SingInRequest("test", "12345678");
+    SignInRequest request = new SignInRequest("test", "12345678");
     MvcResult result = this.mvc.perform(post("/api/v1/auth/sign-in")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
