@@ -9,6 +9,7 @@ public class FakeTokenService extends TokenService {
     super(new FakeJwtEncoder());
   }
 
+  @Override
   public String generateToken(String username, Authority authority) {
     return super.generateToken(username, authority);
   }
