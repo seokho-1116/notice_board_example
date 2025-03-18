@@ -6,8 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.example.noticeboardexample.entity.Post;
 import com.example.noticeboardexample.repository.FakePostRepository;
 import com.example.noticeboardexample.service.dto.PostCreateDto;
-import java.util.List;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,15 +24,6 @@ class PostServiceTest {
         "testContent");
 
     postService.save(postCreateDto);
-  }
-
-  @AfterEach
-  void clear() {
-    List<Post> allPosts = postService.findAll();
-
-    for (Post post : allPosts) {
-      postService.deleteById(post.getId(), "1234");
-    }
   }
 
   @DisplayName("비밀번호가_일치할_때_게시글_삭제_테스트")
