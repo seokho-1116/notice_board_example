@@ -38,7 +38,7 @@ public class FakePostRepository implements PostRepository {
   public List<Post> findAllByOrderByCreatedAtDesc() {
     return posts.values()
         .stream()
-        .sorted(Comparator.comparing(Post::getCreatedAt))
+        .sorted(Comparator.comparing(Post::getCreatedAt, Comparator.nullsLast(Comparator.reverseOrder())))
         .toList();
   }
 }
