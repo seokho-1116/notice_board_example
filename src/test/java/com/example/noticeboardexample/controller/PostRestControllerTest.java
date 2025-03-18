@@ -16,14 +16,16 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-@WebMvcTest({PostRestController.class})
-@Import({PostService.class, FakePostRepository.class, RestControllerAuthTestConfiguration.class})
+@WebMvcTest({PostRestController.class, AuthRestController.class})
+@Import({RestControllerAuthTestConfiguration.class})
 class PostRestControllerTest {
 
   @Autowired
@@ -69,5 +71,14 @@ class PostRestControllerTest {
   void postsWhenAuthenticatedThen200WithMockUser() throws Exception {
     this.mvc.perform(get("/api/v1/posts"))
         .andExpect(status().isOk());
+  }
+
+  @TestConfiguration
+  static class PostRestControllerTestConfig {
+
+    @Bean
+    public PostService postService() {
+      return new PostService(new FakePostRepository());
+    }
   }
 }

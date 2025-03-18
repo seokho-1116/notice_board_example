@@ -27,6 +27,10 @@ public class FakeJwtEncoder implements JwtEncoder {
     this.nimbusJwtEncoder = new NimbusJwtEncoder(jwks);
   }
 
+  public FakeJwtEncoder(NimbusJwtEncoder nimbusJwtEncoder) {
+    this.nimbusJwtEncoder = nimbusJwtEncoder;
+  }
+
   @Override
   public Jwt encode(JwtEncoderParameters parameters) throws JwtEncodingException {
     return this.nimbusJwtEncoder.encode(parameters);
